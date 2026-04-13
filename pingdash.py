@@ -41,6 +41,7 @@ YELLOW  = "\033[93m"
 CYAN    = "\033[96m"
 WHITE   = "\033[97m"
 GRAY    = "\033[90m"
+DK_RED  = "\033[31m"       # dark/dim red
 BG_RED  = "\033[41m"
 BG_GRN  = "\033[42m"
 
@@ -196,15 +197,15 @@ def run_fping(hosts, timeout_ms=2000, retries=1):
 # ── Display ──────────────────────────────────────────────────────────────────
 def fail_color(pct):
     if pct == 0:
-        return GREEN
-    elif pct < 10:
-        return GREEN
-    elif pct < 30:
-        return YELLOW
-    elif pct < 60:
-        return YELLOW
+        return GRAY
+    elif pct < 5:
+        return DIM + DK_RED    # dim dark red — minor loss
+    elif pct < 15:
+        return DK_RED          # dark red — noticeable
+    elif pct < 40:
+        return RED             # bright red — significant
     else:
-        return RED
+        return BOLD + RED      # bold bright red — critical
 
 def status_icon(alive):
     if alive is None:
